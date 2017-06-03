@@ -5,24 +5,79 @@ info:
 paths:
   /bloodstations:
     get:
+      operationId: getBloodStations
       produces:
         - application/json
       responses:
         '200':
-          description: successful operation
+          description: List of blood stations
           schema:
             type: array
             items:
               $ref: '#/definitions/BloodStation'
+  '/bloodstation/{id}':
+    get:
+      operationId: getBloodStationById
+      parameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: BloodStation
+          schema:
+            $ref: '#/definitions/BloodStation'
 definitions:
   BloodStation:
     type: object
     required:
-      - name
+      - id
     properties:
       id:
         type: integer
         format: int64
-      name:
+      FullName:
         type: string
-        example: Центр крови ФМБА России
+        example: >-
+          Государственное бюджетное учреждение здравоохранения города Москвы
+          «Городская клиническая больница имени С.С. Юдина Департамента
+          здравоохранения города Москвы». Станция переливания крови
+      ShortName:
+        type: string
+        example: ГБУЗ ГКБ им. С.С. Юдина ДЗМ. СПК
+      WeekWorkingHours:
+        type: array
+        items:
+          type: object
+          properties:
+            WeekDay:
+              type: string
+              enum:
+                - понедельник
+                - вторник
+                - среда
+                - четверг
+                - пятница
+                - суббота
+                - воскресенье
+            WorkingHours:
+              type: string
+              example: '08:30-12:30'
+      ClarificationWorkingHours:
+        type: string
+        example: Кроме выходных - государственных праздников РФ.
+      PublicPhone:
+        type: string
+        example: (495) 327-27-47
+      GeoData:
+        type: array
+        items:
+          type: object
+          properties:
+            Latitude:
+              type: number
+              example: 55.66316708281587
+            Longitude:
+              type: number
+              example: 37.63720098818374
