@@ -100,8 +100,8 @@ definitions:
               type: number
               example: 37.63720098818374
   Questionnaire:
-    type: array
-    items:
+    type: object
+    additionalProperties:
       $ref: '#/definitions/Question'
   Question:
     type: object
@@ -114,8 +114,8 @@ definitions:
   Answers:
     type: object
     example:
-      Да: Следующий вопрос
-      Нет: Следующий вопрос
+      Да: additionalPropX
+      Нет: additionalPropY
   AnswerPath:
     type: array
     items:
