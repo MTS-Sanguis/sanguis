@@ -9,13 +9,13 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        200:
           description: List of blood stations
           schema:
             type: array
             items:
               $ref: '#/definitions/BloodStation'
-  '/bloodstation/{id}':
+  /bloodstation/{id}:
     get:
       operationId: getBloodStationById
       parameters:
@@ -24,10 +24,28 @@ paths:
           type: integer
           required: true
       responses:
-        '200':
+        200:
           description: BloodStation
           schema:
             $ref: '#/definitions/BloodStation'
+  /questionnaire:
+    get:
+      operationId: getQuestionnaire
+      responses:
+        200:
+          description: Questionnaire
+          schema:
+            $ref: '#/definitions/Questionnaire'
+    post:
+      operationId: postAnswers
+      parameters:
+        - name: answers
+          in: body
+          schema:
+            $ref: '#/definitions/AnswerPath'
+      responses:
+        200:
+          description: Answers successefully posted
 definitions:
   BloodStation:
     type: object
@@ -81,3 +99,24 @@ definitions:
             Longitude:
               type: number
               example: 37.63720098818374
+  Questionnaire:
+    type: array
+    items:
+      $ref: '#/definitions/Question'
+  Question:
+    type: object
+    properties:
+      question:
+        type: string
+        example: Вам уже есть 18 лет?
+      answer:
+        $ref: '#/definitions/Answers'
+  Answers:
+    type: object
+    example:
+      Да: Следующий вопрос
+      Нет: Следующий вопрос
+  AnswerPath:
+    type: array
+    items:
+      type: string
